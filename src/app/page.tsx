@@ -122,7 +122,7 @@ export default async function Home() {
               </div>
               <div className="text-lg leading-8">
                 <p>
-                  "This QR code menu creator has been a{" "}
+                  &rsquo;This QR code menu creator has been a{" "}
                   <span className="p-0.5 bg-slate-800 text-white">
                     game-changer for my restaurant.
                   </span>{" "}
@@ -133,7 +133,7 @@ export default async function Home() {
                   streamlines our operations. It&apos;s rare to find a tool that
                   delivers on its promises so effortlessly. Don&apos;t make the
                   same mistake I did – give it a try and see the difference for
-                  yourself!"
+                  yourself!&rsquo;
                 </p>
               </div>
               <div className="flex gap-4 mt-2">
@@ -161,17 +161,17 @@ export default async function Home() {
               </div>
               <div className="text-lg leading-8">
                 <p>
-                  "Absolutely blown away by this QR code menu creator! It&apos;s
-                  like having a digital magician in my pocket. I&apos;ve been
-                  searching for a solution to enhance my restaurant&apos;s
-                  ordering process, and this is it. The interface is incredibly
-                  user-friendly, allowing me to design a{" "}
+                  &rsquo;Absolutely blown away by this QR code menu creator!
+                  It&apos;s like having a digital magician in my pocket.
+                  I&apos;ve been searching for a solution to enhance my
+                  restaurant&apos;s ordering process, and this is it. The
+                  interface is incredibly user-friendly, allowing me to design a{" "}
                   <span className="p-0.5 bg-slate-800 text-white">
                     stunning digital menu in just minutes.
                   </span>
                   And the best part? The QR codes generated are crystal clear,
                   ensuring that my customers have a seamless and hassle-free
-                  ordering experience."
+                  ordering experience.&rsquo;
                 </p>
               </div>
               <div className="flex gap-4 mt-2">
