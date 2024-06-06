@@ -126,13 +126,13 @@ export default async function Home() {
                   <span className="p-0.5 bg-slate-800 text-white">
                     game-changer for my restaurant.
                   </span>{" "}
-                  It's incredibly user-friendly, and the results speak for
+                  It&apos;s incredibly user-friendly, and the results speak for
                   themselves – our digital menu looks fantastic. The clarity of
                   the QR codes is top-notch, ensuring smooth scans every time.
                   Our customers love the convenience, and I love how it
-                  streamlines our operations. It's rare to find a tool that
-                  delivers on its promises so effortlessly. Don't make the same
-                  mistake I did – give it a try and see the difference for
+                  streamlines our operations. It&apos;s rare to find a tool that
+                  delivers on its promises so effortlessly. Don&apos;t make the
+                  same mistake I did – give it a try and see the difference for
                   yourself!"
                 </p>
               </div>
@@ -161,11 +161,11 @@ export default async function Home() {
               </div>
               <div className="text-lg leading-8">
                 <p>
-                  "Absolutely blown away by this QR code menu creator! It's like
-                  having a digital magician in my pocket. I've been searching
-                  for a solution to enhance my restaurant's ordering process,
-                  and this is it. The interface is incredibly user-friendly,
-                  allowing me to design a{" "}
+                  "Absolutely blown away by this QR code menu creator! It&apos;s
+                  like having a digital magician in my pocket. I&apos;ve been
+                  searching for a solution to enhance my restaurant&apos;s
+                  ordering process, and this is it. The interface is incredibly
+                  user-friendly, allowing me to design a{" "}
                   <span className="p-0.5 bg-slate-800 text-white">
                     stunning digital menu in just minutes.
                   </span>
