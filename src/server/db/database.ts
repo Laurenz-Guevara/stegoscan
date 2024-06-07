@@ -9,8 +9,11 @@ export const getExampleTable = async () => {
   return selectResult;
 };
 
-export const getRestaurants = async () => {
-  const selectResult = await db.query.restaurants.findMany();
+export const getRestaurants = async (userId: string) => {
+  const selectResult = await db
+    .select()
+    .from(restaurants)
+    .where(eq(restaurants.ownerId, userId));
   return selectResult;
 };
 

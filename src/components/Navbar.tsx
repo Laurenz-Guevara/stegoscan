@@ -1,14 +1,12 @@
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { QrCode } from "lucide-react";
 import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { buttonVariants } from "./ui/button";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { QrCode } from "lucide-react";
 
 export default async function Navbar() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-
-  const isAdmin = user?.email === process.env.ADMIN_EMAIL;
 
   return (
     <nav className="sticky z-[100] h-14 inset-x-0 top-0 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
@@ -18,44 +16,46 @@ export default async function Navbar() {
             <QrCode />
             <span className="text-green-600">Stego</span>scan
           </Link>
-          <div>
-            <Link
-              href={""}
-              className={buttonVariants({
-                size: "sm",
-                variant: "ghost",
-              })}
-            >
-              How it works
-            </Link>
-            <Link
-              href={""}
-              className={buttonVariants({
-                size: "sm",
-                variant: "ghost",
-              })}
-            >
-              Features
-            </Link>
-            <Link
-              href={""}
-              className={buttonVariants({
-                size: "sm",
-                variant: "ghost",
-              })}
-            >
-              Pricing
-            </Link>
-            <Link
-              href={""}
-              className={buttonVariants({
-                size: "sm",
-                variant: "ghost",
-              })}
-            >
-              Contact
-            </Link>
-          </div>
+          {user ? null : (
+            <div>
+              <Link
+                href={""}
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "ghost",
+                })}
+              >
+                How it works
+              </Link>
+              <Link
+                href={""}
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "ghost",
+                })}
+              >
+                Features
+              </Link>
+              <Link
+                href={""}
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "ghost",
+                })}
+              >
+                Pricing
+              </Link>
+              <Link
+                href={""}
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "ghost",
+                })}
+              >
+                Contact
+              </Link>
+            </div>
+          )}
           <div className="h-full flex items-center justify-between space-x-4">
             {user ? (
               <>
@@ -68,16 +68,6 @@ export default async function Navbar() {
                 >
                   Dashboard ✨
                 </Link>
-                {/* {isAdmin ? ( */}
-                {/*   <div */}
-                {/*     className={`${buttonVariants({ */}
-                {/*       size: "sm", */}
-                {/*       variant: "ghost", */}
-                {/*     })} ${"cursor-default"}`} */}
-                {/*   > */}
-                {/*     Admin ✨ */}
-                {/*   </div> */}
-                {/* ) : null} */}
                 <Link
                   href={"/api/auth/logout"}
                   className={buttonVariants({

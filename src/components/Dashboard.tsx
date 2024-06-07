@@ -1,30 +1,50 @@
 "use client";
 
 import {
-  getExampleTable,
-  updateRestaurant,
   addRestaurant,
+  getExampleTable,
   getRestaurants,
+  updateRestaurant,
 } from "@/server/db/database";
 
-import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { useState } from "react";
-import NextImage from "next/image";
 import { Image } from "@/components/Configurator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import NextImage from "next/image";
+import { useEffect, useState } from "react";
 
 export default function Configurator() {
+  const { toast } = useToast();
   const [images, setImages] = useState<Image[]>([]);
   const [restaurants, setRestaurants] = useState<any>();
+  const [selectedRestaurant, setSelectedRestaurant] = useState<string>();
   const { isLoading, user } = useKindeBrowserClient();
+
+  useEffect(() => {
+    getRestaurantsFromUser();
+  }, [user]);
+
+  const selectRestaurant = (value: string) => {
+    setSelectedRestaurant(value);
+  };
 
   async function getData() {
     const data = await getExampleTable();
     setImages(data);
   }
 
-  async function getRestaurantsFunc() {
-    const restaurant = await getRestaurants();
-    setRestaurants(restaurant);
+  async function getRestaurantsFromUser() {
+    if (user) {
+      const restaurant = await getRestaurants(user.id);
+      setRestaurants(restaurant);
+    }
   }
 
   async function addRestaurantFunc() {
@@ -44,8 +64,33 @@ export default function Configurator() {
   }
 
   return (
-    <div className="flex flex-1 flex-col h-full bg-zinc-100 rounded-xl mt-2 p-4">
-      <p>Database Controls</p>
+    <div className="flex flex-1 flex-col">
+      <div className="flex justify-between">
+        {selectedRestaurant ? (
+          <h1 className="text-2xl font-semibold">{selectedRestaurant}</h1>
+        ) : (
+          <h1 className="text-2xl font-semibold">Select a Restaurant</h1>
+        )}
+        <Select onValueChange={selectRestaurant}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select a restaurant" />
+          </SelectTrigger>
+          <SelectContent>
+            {restaurants ? (
+              restaurants.map((restaurant: any) => (
+                <SelectItem
+                  key={restaurant.id}
+                  value={restaurant.restaurantName}
+                >
+                  {restaurant.restaurantName}
+                </SelectItem>
+              ))
+            ) : (
+              <p className="text-sm px-2 py-1">Loading...</p>
+            )}
+          </SelectContent>
+        </Select>
+      </div>
       <div>
         <button
           className="bg-green-400 rounded-md px-4 py-1"
@@ -61,12 +106,6 @@ export default function Configurator() {
         </button>
         <button
           className="bg-green-400 rounded-md px-4 py-1"
-          onClick={() => getRestaurantsFunc()}
-        >
-          Get restaurants
-        </button>
-        <button
-          className="bg-green-400 rounded-md px-4 py-1"
           onClick={() => getData()}
         >
           Query
@@ -78,14 +117,6 @@ export default function Configurator() {
               <div className="w-20 h-20 relative">
                 <NextImage fill src={item.url} alt={item.name} />
               </div>
-            </div>
-          ))}
-        {restaurants &&
-          restaurants.map((item: any) => (
-            <div key={item.id}>
-              {item.restaurantName}
-              {item.restaurantOwner}
-              {item.restaurantStatus}
             </div>
           ))}
       </div>

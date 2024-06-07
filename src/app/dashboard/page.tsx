@@ -1,7 +1,5 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import Configurator from "@/components/Configurator";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { db } from "@/server/db";
 import Dashboard from "@/components/Dashboard";
 
 export default async function Home() {
@@ -12,9 +10,6 @@ export default async function Home() {
   return (
     <section className="flex flex-1 flex-col">
       <MaxWidthWrapper className="relative h-full flex flex-1 flex-col mt-2 pb-4">
-        <h1 className="font-semibold">
-          Stegoscan <span> - {user ? "👑" : "Not Logged In"}</span>
-        </h1>
         {user && (
           <>
             {isAdmin ? (
@@ -23,7 +18,8 @@ export default async function Home() {
               </>
             ) : (
               <>
-                <p>Only admins can see this dashboard, please login.</p>
+                <Dashboard />
+                {/* <p>Only admins can see this dashboard, please login.</p> */}
               </>
             )}
           </>
