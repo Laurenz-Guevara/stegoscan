@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
-import { db } from "@/server/db";
+import { RestaurantStatus } from "./enums";
+
 import {
   index,
   pgTableCreator,
@@ -9,6 +10,8 @@ import {
 } from "drizzle-orm/pg-core";
 
 export const createTable = pgTableCreator((name) => `stegoscan_${name}`);
+
+import { db } from "@/server/db";
 
 export const images = createTable(
   "image",
@@ -28,3 +31,31 @@ export const images = createTable(
     nameIndex: index("name_idx").on(example.name),
   }),
 );
+
+export const restaurants = createTable(
+  "restaurants",
+  {
+    id: serial("id").primaryKey(),
+    restaurantName: varchar("restaurant_name", { length: 256 }).notNull(),
+    restaurantOwner: varchar("restaurant_owner", { length: 256 }).notNull(),
+    restaurantStatus: varchar("restaurant_status", { length: 32 })
+      .notNull()
+      .default(RestaurantStatus.Active),
+    createdAt: timestamp("created_at")
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updatedAt"),
+  },
+  (example) => ({
+    nameIndex: index("restaurant_idx").on(example.restaurantName),
+  }),
+);
+
+export const addRestaurant = async () => {
+  const insertResult = await db.insert(restaurants).values({
+    restaurantName: "The Smith and Iron",
+    restaurantOwner: "Andrew",
+    restaurantStatus: "active",
+  });
+  return insertResult;
+};
