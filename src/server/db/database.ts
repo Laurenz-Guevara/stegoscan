@@ -16,12 +16,10 @@ export const getRestaurants = async () => {
 
 export const addRestaurant = async () => {
   await db.insert(restaurants).values({
-    id: 2,
-    restaurantName: "The Smith and Iron",
+    restaurantName: "The Smith and Iron 2",
     restaurantOwner: "Andrew",
     restaurantStatus: "active",
     createdAt: new Date(),
-    updatedAt: new Date(),
   });
 };
 
