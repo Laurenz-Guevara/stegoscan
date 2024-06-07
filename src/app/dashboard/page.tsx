@@ -9,8 +9,6 @@ export default async function Home() {
   const user = await getUser();
   const isAdmin = user?.email === process.env.ADMIN_EMAIL;
 
-  // const images = await db.query.images.findMany();
-
   return (
     <section className="flex flex-1 flex-col">
       <MaxWidthWrapper className="relative h-full flex flex-1 flex-col mt-2 pb-4">
@@ -21,13 +19,11 @@ export default async function Home() {
           <>
             {isAdmin ? (
               <>
-                {/* <Configurator images={images} /> */}
                 <Dashboard />
               </>
             ) : (
               <>
-                {/* <p>Only admins can see this dashboard, please login.</p> */}
-                <Dashboard />
+                <p>Only admins can see this dashboard, please login.</p>
               </>
             )}
           </>
