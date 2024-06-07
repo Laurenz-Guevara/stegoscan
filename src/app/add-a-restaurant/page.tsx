@@ -1,5 +1,6 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
 import Dashboard from "@/components/Dashboard";
 
 export default async function Home() {

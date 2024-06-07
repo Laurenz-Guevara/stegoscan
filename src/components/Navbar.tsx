@@ -16,7 +16,37 @@ export default async function Navbar() {
             <QrCode />
             <span className="text-green-600">Stego</span>scan
           </Link>
-          {user ? null : (
+          {user ? (
+            <div>
+              <Link
+                href={"/add-a-restaurant"}
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "ghost",
+                })}
+              >
+                Add a restaurant
+              </Link>
+              <Link
+                href={""}
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "ghost",
+                })}
+              >
+                Create a QR code
+              </Link>
+              <Link
+                href={""}
+                className={buttonVariants({
+                  size: "sm",
+                  variant: "ghost",
+                })}
+              >
+                Guide
+              </Link>
+            </div>
+          ) : (
             <div>
               <Link
                 href={""}

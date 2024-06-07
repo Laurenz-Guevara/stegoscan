@@ -1,8 +1,5 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { db } from "@/server/db";
 import { Check, Star } from "lucide-react";
-// import Phone from "@/components/Phone";
 
 export default async function Home() {
   return (
