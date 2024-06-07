@@ -26,7 +26,8 @@ export default async function Home() {
               </>
             ) : (
               <>
-                <p>Only admins can see this dashboard, please login.</p>
+                {/* <p>Only admins can see this dashboard, please login.</p> */}
+                <Dashboard />
               </>
             )}
           </>

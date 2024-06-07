@@ -4,26 +4,39 @@ import {
   getExampleTable,
   updateRestaurant,
   addRestaurant,
+  getRestaurants,
 } from "@/server/db/database";
 
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useState } from "react";
 import NextImage from "next/image";
-
 import { Image } from "@/components/Configurator";
 
 export default function Configurator() {
   const [images, setImages] = useState<Image[]>([]);
   const [restaurants, setRestaurants] = useState<any>();
+  const { isLoading, user } = useKindeBrowserClient();
 
   async function getData() {
     const data = await getExampleTable();
-    // const restaurant = await getRestaurants();
     setImages(data);
-    // setRestaurants(restaurant);
+  }
+
+  async function getRestaurantsFunc() {
+    const restaurant = await getRestaurants();
+    setRestaurants(restaurant);
   }
 
   async function addRestaurantFunc() {
-    await addRestaurant();
+    if (!isLoading) {
+      await addRestaurant({
+        restaurantName: "The Smith and Iron 2",
+        restaurantOwner: user?.given_name,
+        ownerId: user?.id,
+        restaurantStatus: "active",
+        createdAt: new Date(),
+      });
+    }
   }
 
   async function updateRestaurantFunc() {
@@ -45,6 +58,12 @@ export default function Configurator() {
           onClick={() => updateRestaurantFunc()}
         >
           Update Restaurant
+        </button>
+        <button
+          className="bg-green-400 rounded-md px-4 py-1"
+          onClick={() => getRestaurantsFunc()}
+        >
+          Get restaurants
         </button>
         <button
           className="bg-green-400 rounded-md px-4 py-1"

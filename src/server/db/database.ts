@@ -14,13 +14,8 @@ export const getRestaurants = async () => {
   return selectResult;
 };
 
-export const addRestaurant = async () => {
-  await db.insert(restaurants).values({
-    restaurantName: "The Smith and Iron 2",
-    restaurantOwner: "Andrew",
-    restaurantStatus: "active",
-    createdAt: new Date(),
-  });
+export const addRestaurant = async (obj: any) => {
+  await db.insert(restaurants).values(obj);
 };
 
 export const updateRestaurant = async () => {

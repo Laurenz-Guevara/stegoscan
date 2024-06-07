@@ -36,12 +36,13 @@ export const restaurants = createTable(
   "restaurants",
   {
     id: serial("id").primaryKey(),
-    restaurantName: varchar("restaurant_name", { length: 256 }).notNull(),
-    restaurantOwner: varchar("restaurant_owner", { length: 256 }).notNull(),
-    restaurantStatus: varchar("restaurant_status", { length: 32 })
+    restaurantName: varchar("restaurantName", { length: 256 }).notNull(),
+    ownerId: varchar("ownerId", { length: 256 }).notNull(),
+    restaurantOwner: varchar("restaurantOwner", { length: 256 }).notNull(),
+    restaurantStatus: varchar("restaurantStatus", { length: 32 })
       .notNull()
       .default(RestaurantStatus.Active),
-    createdAt: timestamp("created_at")
+    createdAt: timestamp("createdAt")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updatedAt"),
@@ -50,12 +51,3 @@ export const restaurants = createTable(
     nameIndex: index("restaurant_idx").on(example.restaurantName),
   }),
 );
-
-export const addRestaurant = async () => {
-  const insertResult = await db.insert(restaurants).values({
-    restaurantName: "The Smith and Iron",
-    restaurantOwner: "Andrew",
-    restaurantStatus: "active",
-  });
-  return insertResult;
-};
