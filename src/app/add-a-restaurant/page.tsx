@@ -1,7 +1,7 @@
 "use client";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -28,6 +28,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 export default function Home() {
   const { toast } = useToast();
@@ -61,13 +72,17 @@ export default function Home() {
         description: request.description,
         variant: request.variant === "success" ? "success" : "destructive",
       });
+
+      if (request.status === true) {
+        setSelectedRestaurant(undefined);
+      }
     }
 
     getRestaurantsFromUser();
   }
 
-  async function addRestaurantFunc() {
-    console.log(restaurantName, user?.id);
+  async function addRestaurantFunc(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (!isLoading && user) {
       let request = await addRestaurant({
         restaurantName: restaurantName,
@@ -89,14 +104,14 @@ export default function Home() {
     <section className="flex flex-1 flex-col">
       <MaxWidthWrapper className="relative h-full flex flex-1 flex-col mt-4 pb-4">
         <Card className="w-full mt-4">
-          <CardHeader>
-            <CardTitle>Add a restaurant</CardTitle>
-            <CardDescription>
-              Fill in the details to add a restaurant
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form>
+          <form onSubmit={addRestaurantFunc}>
+            <CardHeader>
+              <CardTitle>Add a restaurant</CardTitle>
+              <CardDescription>
+                Fill in the details to add a restaurant
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
               <div className="grid w-full items-center gap-4">
                 <div className="flex flex-col space-y-1.5">
                   <Label htmlFor="name">Restaurant name</Label>
@@ -107,11 +122,11 @@ export default function Home() {
                   />
                 </div>
               </div>
-            </form>
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button onClick={() => addRestaurantFunc()}>Add Restaurant</Button>
-          </CardFooter>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <Button>Add Restaurant</Button>
+            </CardFooter>
+          </form>
         </Card>
         <Card className="w-full mt-4">
           <CardHeader>
@@ -141,12 +156,35 @@ export default function Home() {
             </Select>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Button
-              variant="destructive"
-              onClick={() => deleteRestaurantFunc()}
-            >
-              Delete Restaurant
-            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  disabled={selectedRestaurant == undefined}
+                  variant="destructive"
+                >
+                  Delete Restaurant
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This action cannot be undone. This will permanently delete
+                    your restaurant from our servers.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    disabled={selectedRestaurant == undefined}
+                    onClick={() => deleteRestaurantFunc()}
+                    className={buttonVariants({ variant: "destructive" })}
+                  >
+                    Confirm and Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </CardFooter>
         </Card>
       </MaxWidthWrapper>
