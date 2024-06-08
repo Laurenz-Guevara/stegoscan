@@ -19,7 +19,7 @@ export default async function Navbar() {
           {user ? (
             <div>
               <Link
-                href={"/add-a-restaurant"}
+                href={"/dashboard/manage-restaurants"}
                 className={buttonVariants({
                   size: "sm",
                   variant: "ghost",
@@ -28,7 +28,7 @@ export default async function Navbar() {
                 Manage restaurants
               </Link>
               <Link
-                href={""}
+                href={"/dashboard/manage-menus"}
                 className={buttonVariants({
                   size: "sm",
                   variant: "ghost",

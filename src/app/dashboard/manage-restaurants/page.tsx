@@ -103,6 +103,7 @@ export default function Home() {
   return (
     <section className="flex flex-1 flex-col">
       <MaxWidthWrapper className="relative h-full flex flex-1 flex-col mt-4 pb-4">
+        <h1 className="text-2xl font-semibold">Manage Restaurants</h1>
         <Card className="w-full mt-4">
           <form onSubmit={addRestaurantFunc}>
             <CardHeader>
