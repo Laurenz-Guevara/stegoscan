@@ -2,12 +2,7 @@
 
 import { db } from "@/server/db";
 import { restaurants } from "./schema";
-import { eq } from "drizzle-orm";
-
-export const getExampleTable = async () => {
-  const selectResult = await db.query.images.findMany();
-  return selectResult;
-};
+import { and, eq } from "drizzle-orm";
 
 export const getRestaurants = async (userId: string) => {
   const selectResult = await db
@@ -18,7 +13,41 @@ export const getRestaurants = async (userId: string) => {
 };
 
 export const addRestaurant = async (obj: any) => {
-  await db.insert(restaurants).values(obj);
+  const doesExist = await db
+    .select()
+    .from(restaurants)
+    .where(
+      and(
+        eq(restaurants.restaurantName, obj.restaurantName),
+        eq(restaurants.ownerId, obj.ownerId),
+      ),
+    );
+
+  if (doesExist.length > 0) {
+    return {
+      status: false,
+      title: "Error :(",
+      description: "This restaurant already exists",
+      variant: "destructive",
+    };
+  }
+
+  try {
+    await db.insert(restaurants).values(obj);
+  } catch (error) {
+    return {
+      status: false,
+      title: "Error :(",
+      description: "There was an error adding the restaurant",
+      variant: "destructive",
+    };
+  }
+  return {
+    status: true,
+    title: "Success",
+    description: "The restaurant has been added successfully",
+    variant: "success",
+  };
 };
 
 export const updateRestaurant = async () => {
@@ -26,4 +55,43 @@ export const updateRestaurant = async () => {
     .update(restaurants)
     .set({ restaurantName: "The Owly" })
     .where(eq(restaurants.restaurantName, "Mr. Dan"));
+};
+
+export const deleteRestaurant = async (
+  restaurantName: string,
+  userId: string,
+) => {
+  try {
+    const result = await db
+      .delete(restaurants)
+      .where(
+        and(
+          eq(restaurants.restaurantName, restaurantName),
+          eq(restaurants.ownerId, userId),
+        ),
+      );
+
+    if (result.rowCount === 0) {
+      return {
+        status: false,
+        title: "Error :(",
+        description: "This restaurant does not exist",
+        variant: "destructive",
+      };
+    } else {
+      return {
+        status: true,
+        title: "Success",
+        description: "The restaurant has been deleted successfully",
+        variant: "success",
+      };
+    }
+  } catch (error) {
+    return {
+      status: false,
+      title: "Error :(",
+      description: "There was an error deleting the restaurant",
+      variant: "destructive",
+    };
+  }
 };
