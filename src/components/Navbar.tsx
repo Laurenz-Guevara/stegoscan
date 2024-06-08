@@ -25,7 +25,7 @@ export default async function Navbar() {
                   variant: "ghost",
                 })}
               >
-                Add a restaurant
+                Manage restaurants
               </Link>
               <Link
                 href={""}
@@ -34,7 +34,7 @@ export default async function Navbar() {
                   variant: "ghost",
                 })}
               >
-                Create a QR code
+                Manage Menus
               </Link>
               <Link
                 href={""}
