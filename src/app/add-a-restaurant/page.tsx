@@ -67,11 +67,10 @@ export default function Home() {
   }
 
   async function addRestaurantFunc() {
-    console.log(restaurantName, user?.given_name, user?.id);
+    console.log(restaurantName, user?.id);
     if (!isLoading && user) {
       let request = await addRestaurant({
         restaurantName: restaurantName,
-        restaurantOwner: user?.given_name,
         ownerId: user?.id,
         restaurantStatus: RestaurantStatus.Active,
         createdAt: new Date(),
