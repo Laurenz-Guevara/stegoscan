@@ -119,12 +119,20 @@ export default function Home() {
                     onChange={(e) => setRestaurantName(e.target.value)}
                     id="restaurantName"
                     placeholder="Name of your restaurant"
+                    value={restaurantName}
                   />
                 </div>
               </div>
             </CardContent>
             <CardFooter className="flex justify-end">
-              <Button>Add Restaurant</Button>
+              <Button
+                className="bg-green-600"
+                disabled={
+                  restaurantName?.length === 0 || restaurantName == undefined
+                }
+              >
+                Add Restaurant
+              </Button>
             </CardFooter>
           </form>
         </Card>
@@ -142,12 +150,14 @@ export default function Home() {
               <SelectContent>
                 {restaurants ? (
                   restaurants.map((restaurant: any) => (
-                    <SelectItem
-                      key={restaurant.id}
-                      value={restaurant.restaurantName}
-                    >
-                      {restaurant.restaurantName}
-                    </SelectItem>
+                    <>
+                      <SelectItem
+                        key={restaurant.id}
+                        value={restaurant.restaurantName}
+                      >
+                        {restaurant.restaurantName}
+                      </SelectItem>
+                    </>
                   ))
                 ) : (
                   <p className="text-sm px-2 py-1">Loading...</p>
