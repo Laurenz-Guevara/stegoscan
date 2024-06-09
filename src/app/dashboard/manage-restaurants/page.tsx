@@ -39,6 +39,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import React from "react";
 
 export default function Home() {
   const { toast } = useToast();
@@ -151,14 +152,11 @@ export default function Home() {
               <SelectContent>
                 {restaurants ? (
                   restaurants.map((restaurant: any) => (
-                    <>
-                      <SelectItem
-                        key={restaurant.id}
-                        value={restaurant.restaurantName}
-                      >
+                    <React.Fragment key={restaurant.id}>
+                      <SelectItem value={restaurant.restaurantName}>
                         {restaurant.restaurantName}
                       </SelectItem>
-                    </>
+                    </React.Fragment>
                   ))
                 ) : (
                   <p className="text-sm px-2 py-1">Loading...</p>

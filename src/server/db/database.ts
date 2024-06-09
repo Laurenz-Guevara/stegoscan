@@ -95,3 +95,16 @@ export const deleteRestaurant = async (
     };
   }
 };
+
+export const getRestaurantPages = async () => {
+  const selectResult = await db.select().from(restaurants);
+  return selectResult;
+};
+
+export const getRestaurantPage = async (cuid: string) => {
+  const selectResult = await db
+    .select()
+    .from(restaurants)
+    .where(eq(restaurants.restaurantSlug, cuid));
+  return selectResult;
+};

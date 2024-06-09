@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import { RestaurantStatus } from "./enums";
+import { createId } from "@paralleldrive/cuid2";
 
 import {
   integer,
@@ -13,6 +14,12 @@ export const createTable = pgTableCreator((name) => `stegoscan_${name}`);
 
 export const restaurants = createTable("restaurants", {
   id: serial("id").primaryKey(),
+  restaurantSlug: varchar("restaurantSlug", { length: 256 }).$defaultFn(() =>
+    createId(),
+  ),
+  restaurantPrettySlug: varchar("restaurantPrettySlug", {
+    length: 256,
+  }),
   restaurantName: varchar("restaurantName", { length: 256 }).notNull(),
   ownerId: varchar("ownerId", { length: 256 }).notNull(),
   restaurantStatus: varchar("restaurantStatus", { length: 32 })
