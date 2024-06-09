@@ -104,6 +104,39 @@ export default function Home() {
     <section className="flex flex-1 flex-col">
       <MaxWidthWrapper className="relative h-full flex flex-1 flex-col mt-4 pb-4">
         <h1 className="text-2xl font-semibold">Manage Menus</h1>
+        <Card className="w-full mt-4">
+          <form onSubmit={addRestaurantFunc}>
+            <CardHeader>
+              <CardTitle>Create a menu</CardTitle>
+              <CardDescription>
+                Fill in the details to add a restaurant
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid w-full items-center gap-4">
+                <div className="flex flex-col space-y-1.5">
+                  <Label htmlFor="name">Restaurant name</Label>
+                  <Input
+                    onChange={(e) => setRestaurantName(e.target.value)}
+                    id="restaurantName"
+                    placeholder="Name of your restaurant"
+                    value={restaurantName}
+                  />
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <Button
+                className="bg-green-600"
+                disabled={
+                  restaurantName?.length === 0 || restaurantName == undefined
+                }
+              >
+                Add Restaurant
+              </Button>
+            </CardFooter>
+          </form>
+        </Card>
       </MaxWidthWrapper>
     </section>
   );
