@@ -55,7 +55,7 @@ export default function Configurator() {
         <div className="flex items-center space-x-4">
           {restaurant && (
             <Button className="bg-green-600" asChild>
-              <Link href={restaurant.restaurantSlug}>Visit Menu</Link>
+              <Link href={"menu/" + restaurant.restaurantSlug}>Visit Menu</Link>
             </Button>
           )}
           <Select onValueChange={selectRestaurant}>
