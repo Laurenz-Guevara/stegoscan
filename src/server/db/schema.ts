@@ -2,7 +2,6 @@ import { sql } from "drizzle-orm";
 import { RestaurantStatus } from "./enums";
 
 import {
-  index,
   integer,
   pgTableCreator,
   serial,
