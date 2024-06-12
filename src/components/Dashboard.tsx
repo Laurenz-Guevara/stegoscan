@@ -12,7 +12,7 @@ import {
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 
 // interface RestaurantProps {
 //   id: string;

@@ -1,7 +1,8 @@
 "use client";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { ToastVariant } from "@/server/db/enums";
 import {
   Card,
   CardContent,
@@ -70,7 +71,10 @@ export default function Home() {
       toast({
         title: request.title,
         description: request.description,
-        variant: request.variant === "success" ? "success" : "destructive",
+        variant:
+          request.variant === ToastVariant.Success
+            ? ToastVariant.Success
+            : ToastVariant.Destructive,
       });
 
       if (request.status === true) {
@@ -94,7 +98,10 @@ export default function Home() {
       toast({
         title: request.title,
         description: request?.description,
-        variant: request.variant === "success" ? "success" : "destructive",
+        variant:
+          request.variant === ToastVariant.Success
+            ? ToastVariant.Success
+            : ToastVariant.Destructive,
       });
     }
     getRestaurantsFromUser();

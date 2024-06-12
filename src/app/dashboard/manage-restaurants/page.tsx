@@ -21,6 +21,7 @@ import {
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect, useState } from "react";
 import { RestaurantStatus } from "@/server/db/enums";
+import { ToastVariant } from "@/server/db/enums";
 import {
   Select,
   SelectContent,
@@ -71,7 +72,10 @@ export default function Home() {
       toast({
         title: request.title,
         description: request.description,
-        variant: request.variant === "success" ? "success" : "destructive",
+        variant:
+          request.variant === ToastVariant.Success
+            ? ToastVariant.Success
+            : ToastVariant.Destructive,
       });
 
       if (request.status === true) {
@@ -95,7 +99,10 @@ export default function Home() {
       toast({
         title: request.title,
         description: request?.description,
-        variant: request.variant === "success" ? "success" : "destructive",
+        variant:
+          request.variant === ToastVariant.Success
+            ? ToastVariant.Success
+            : ToastVariant.Destructive,
       });
     }
     getRestaurantsFromUser();

@@ -5,3 +5,9 @@ export enum RestaurantStatus {
   Inactive = "inactive",
   Disabled = "disabled",
 }
+
+export enum ToastVariant {
+  Default = "default",
+  Success = "success",
+  Destructive = "destructive",
+}

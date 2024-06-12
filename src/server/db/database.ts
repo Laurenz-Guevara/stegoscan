@@ -1,7 +1,8 @@
 "use server";
 
 import { db } from "@/server/db";
-import { restaurants, menus } from "./schema";
+import { restaurants } from "./schema";
+import { ToastVariant } from "./enums";
 import { and, eq } from "drizzle-orm";
 
 export const getRestaurants = async (userId: string) => {
@@ -28,7 +29,7 @@ export const addRestaurant = async (obj: any) => {
       status: false,
       title: "Error :(",
       description: "This restaurant already exists",
-      variant: "destructive",
+      variant: ToastVariant.Destructive,
     };
   }
 
@@ -39,14 +40,14 @@ export const addRestaurant = async (obj: any) => {
       status: false,
       title: "Error :(",
       description: "There was an error adding the restaurant",
-      variant: "destructive",
+      variant: ToastVariant.Destructive,
     };
   }
   return {
     status: true,
     title: "Success",
     description: "The restaurant has been added successfully",
-    variant: "success",
+    variant: ToastVariant.Success,
   };
 };
 
@@ -76,14 +77,14 @@ export const deleteRestaurant = async (
         status: false,
         title: "Error :(",
         description: "This restaurant does not exist",
-        variant: "destructive",
+        variant: ToastVariant.Destructive,
       };
     } else {
       return {
         status: true,
         title: "Success",
         description: "The restaurant has been deleted successfully",
-        variant: "success",
+        variant: ToastVariant.Success,
       };
     }
   } catch (error) {
@@ -91,7 +92,7 @@ export const deleteRestaurant = async (
       status: false,
       title: "Error :(",
       description: "There was an error deleting the restaurant",
-      variant: "destructive",
+      variant: ToastVariant.Destructive,
     };
   }
 };
