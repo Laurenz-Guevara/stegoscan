@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/server/db";
-import { restaurants, menu } from "./schema";
+import { restaurants, menus } from "./schema";
 import { and, eq } from "drizzle-orm";
 
 export const getRestaurants = async (userId: string) => {
@@ -110,26 +110,16 @@ export const getRestaurantPage = async (cuid: string) => {
 };
 
 export const getRestaurantAndMenus = async (cuid: string) => {
-  const selectResult = await db
-    .select({
-      restaurant: { id: restaurants.id },
-      menus: { menuId: menu.id, menuName: menu.menuName },
-    })
-    .from(restaurants)
-    .where(eq(restaurants.restaurantSlug, cuid))
-    .innerJoin(menu, eq(restaurants.id, menu.restaurantId));
-
-  const restaurantMap = new Map();
-
-  selectResult.forEach(({ restaurant, menus }) => {
-    if (!restaurantMap.has(restaurant.id)) {
-      restaurantMap.set(restaurant.id, { restaurant, menus: [] });
-    }
-    restaurantMap.get(restaurant.id).menus.push(menus);
+  const selectResult = await db.query.restaurants.findMany({
+    where: (restaurants, { eq }) => eq(restaurants.restaurantSlug, cuid),
+    with: {
+      menus: {
+        with: {
+          menuItems: true,
+        },
+      },
+    },
   });
 
-  const groupedResult = Array.from(restaurantMap.values());
-
-  console.log(groupedResult);
-  return groupedResult;
+  return selectResult;
 };
