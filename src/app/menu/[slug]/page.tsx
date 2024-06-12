@@ -1,48 +1,35 @@
-"use client";
-
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
-import { getRestaurantPage, getRestaurantAndMenus } from "@/server/db/database";
+import { getRestaurantAndMenus } from "@/server/db/database";
 import { notFound } from "next/navigation";
-import { useEffect, useState } from "react";
 
-export default function Page(params: any) {
-  const [restaurant, setRestaurant] = useState<any>();
-  const [exists, setExists] = useState<boolean>(true);
+export default async function Page(params: any) {
+  let restaurant = await getRestaurantAndMenus(params.params.slug);
 
-  useEffect(() => {
-    getRestaurantFromDatabase();
-    getRestaurantFromDatabase2();
-  }, []);
-
-  async function getRestaurantFromDatabase2() {
-    const restaurant = await getRestaurantAndMenus(params.params.slug);
-    console.log(restaurant);
-  }
-
-  async function getRestaurantFromDatabase() {
-    const restaurant = await getRestaurantPage(params.params.slug);
-    if (restaurant === undefined) {
-      setExists(false);
-    }
-    // console.log(restaurant);
-    setRestaurant(restaurant);
-  }
-
-  if (!exists) {
+  if (!restaurant) {
     return notFound();
   }
 
-  if (!restaurant) {
-    return (
-      <MaxWidthWrapper>
-        <h1>Loading...</h1>
-      </MaxWidthWrapper>
-    );
-  }
-
   return (
-    <MaxWidthWrapper>
-      <h1>Menu for {restaurant.restaurantName}</h1>
+    <MaxWidthWrapper className="relative h-full flex flex-1 flex-col mt-4 pb-4">
+      <h1 className="text-2xl font-semibold">
+        {restaurant.restaurantName} Menu
+      </h1>
+
+      <div className="flex flex-row space-x-10">
+        {restaurant.menus &&
+          restaurant.menus.map((menu) => (
+            <div key={menu.id}>
+              <p>{menu.menuName}</p>
+              {menu.menuItems &&
+                menu.menuItems.map((item) => (
+                  <div key={item.id} className="flex flex-row space-x-10">
+                    <div>{item.itemName}</div>
+                    <div>£{item.itemPrice}</div>
+                  </div>
+                ))}
+            </div>
+          ))}
+      </div>
     </MaxWidthWrapper>
   );
 }
