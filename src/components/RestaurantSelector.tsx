@@ -1,10 +1,9 @@
 "use client";
 
-import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect, useState } from "react";
-
 import { getRestaurants } from "@/server/db/database";
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Restaurant } from "@/server/db/types";
 
 import {
