@@ -6,10 +6,17 @@ import { ToastVariant } from "./enums";
 import { and, eq } from "drizzle-orm";
 
 export const getRestaurants = async (userId: string) => {
-  const selectResult = await db
-    .select()
-    .from(restaurants)
-    .where(eq(restaurants.ownerId, userId));
+  const selectResult = await db.query.restaurants.findMany({
+    where: (restaurants, { eq }) => eq(restaurants.ownerId, userId),
+    columns: {
+      id: true,
+      restaurantName: true,
+      restaurantPrettySlug: true,
+      restaurantSlug: true,
+      restaurantStatus: true,
+    },
+  });
+
   return selectResult;
 };
 

@@ -1,9 +1,11 @@
 "use client";
+
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect, useState } from "react";
 
 import { getRestaurants } from "@/server/db/database";
+import { Restaurant } from "@/server/db/types";
 
 import {
   Select,
@@ -16,28 +18,26 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 
 export default function RestaurantSelector() {
-  // const { getUser } = getKindeServerSession();
-  // const user = await getUser();
-  // const isAdmin = user?.email === process.env.ADMIN_EMAIL;
-
-  const [restaurants, setRestaurants] = useState<any>();
+  const [restaurants, setRestaurants] = useState<Restaurant[]>();
+  const [restaurant, setRestaurant] = useState<Restaurant>();
   const [selectedRestaurant, setSelectedRestaurant] = useState<string>();
-  const [restaurant, setRestaurant] = useState<any>();
   const { user } = useKindeBrowserClient();
 
   useEffect(() => {
     getRestaurantsFromUser();
   }, [user]);
 
-  const selectRestaurant = (value: any) => {
-    setSelectedRestaurant(value.restaurantName);
-    setRestaurant(value);
+  const selectRestaurant = (value: string) => {
+    setSelectedRestaurant(value);
+    setRestaurant(
+      restaurants?.find((restaurant) => restaurant.restaurantName === value),
+    );
   };
 
   async function getRestaurantsFromUser() {
     if (user) {
       const restaurant = await getRestaurants(user.id);
-      setRestaurants(restaurant);
+      setRestaurants(restaurant as Restaurant[]);
     }
   }
 
@@ -63,8 +63,11 @@ export default function RestaurantSelector() {
             </SelectTrigger>
             <SelectContent>
               {restaurants ? (
-                restaurants.map((restaurant: any) => (
-                  <SelectItem key={restaurant.id} value={restaurant}>
+                restaurants.map((restaurant) => (
+                  <SelectItem
+                    key={restaurant.id}
+                    value={restaurant.restaurantName}
+                  >
                     {restaurant.restaurantName}
                   </SelectItem>
                 ))
