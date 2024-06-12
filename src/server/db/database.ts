@@ -124,3 +124,14 @@ export const getRestaurantAndMenus = async (cuid: string) => {
 
   return selectResult;
 };
+
+export const getMenusWithUserId = async (userId: string) => {
+  const selectResult = await db.query.restaurants.findMany({
+    where: (restaurants, { eq }) => eq(restaurants.ownerId, userId),
+    with: {
+      menus: true,
+    },
+  });
+
+  return selectResult;
+};
