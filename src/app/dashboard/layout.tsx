@@ -1,4 +1,5 @@
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import RestaurantSelector from "@/components/RestaurantSelector";
 import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
@@ -9,7 +10,10 @@ export default async function RootLayout({
 }>) {
   const { isAuthenticated } = getKindeServerSession();
   return (await isAuthenticated()) ? (
-    <>{children}</>
+    <>
+      <RestaurantSelector />
+      {children}
+    </>
   ) : (
     <MaxWidthWrapper>
       <div className="py-4">

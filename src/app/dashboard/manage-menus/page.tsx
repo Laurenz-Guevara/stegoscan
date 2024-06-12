@@ -92,31 +92,6 @@ export default function Home() {
   return (
     <section className="flex flex-1 flex-col">
       <MaxWidthWrapper className="relative h-full flex flex-1 flex-col mt-4 pb-4">
-        <div className="flex justify-between">
-          {selectedRestaurant ? (
-            <h1 className="text-2xl font-semibold">{selectedRestaurant}</h1>
-          ) : (
-            <h1 className="text-2xl font-semibold">Select a Restaurant</h1>
-          )}
-          <div className="flex items-center space-x-4">
-            <Select onValueChange={selectRestaurant}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a restaurant" />
-              </SelectTrigger>
-              <SelectContent>
-                {restaurants ? (
-                  restaurants.map((restaurant: any) => (
-                    <SelectItem key={restaurant.id} value={restaurant}>
-                      {restaurant.restaurantName}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <p className="text-sm px-2 py-1">Loading...</p>
-                )}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
         <h1 className="text-2xl font-semibold">Manage Menus</h1>
         <Card className="w-full mt-4">
           <form onSubmit={addMenu}>
