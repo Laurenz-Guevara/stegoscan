@@ -1,12 +1,36 @@
+"use client";
+
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { getRestaurantPage } from "@/server/db/database";
 import { notFound } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default async function Page(params: any) {
-  let restaurant = await getRestaurantPage(params.params.slug);
+export default function Page(params: any) {
+  const [restaurant, setRestaurant] = useState<any>();
+  const [exists, setExists] = useState<boolean>(true);
+
+  useEffect(() => {
+    getRestaurantFromDatabase();
+  }, []);
+
+  async function getRestaurantFromDatabase() {
+    const restaurant = await getRestaurantPage(params.params.slug);
+    if (restaurant === undefined) {
+      setExists(false);
+    }
+    setRestaurant(restaurant);
+  }
+
+  if (!exists) {
+    return notFound();
+  }
 
   if (!restaurant) {
-    return notFound();
+    return (
+      <MaxWidthWrapper>
+        <h1>Loading...</h1>
+      </MaxWidthWrapper>
+    );
   }
 
   return (
