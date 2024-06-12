@@ -106,5 +106,5 @@ export const getRestaurantPage = async (cuid: string) => {
     .select()
     .from(restaurants)
     .where(eq(restaurants.restaurantSlug, cuid));
-  return selectResult;
+  return selectResult[0];
 };

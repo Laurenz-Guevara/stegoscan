@@ -1,23 +1,41 @@
-import { getRestaurantPage, getRestaurantPages } from "@/server/db/database";
+"use client";
+
+import MaxWidthWrapper from "@/components/MaxWidthWrapper";
+import { getRestaurantPage } from "@/server/db/database";
 import { notFound } from "next/navigation";
-import MenuPage from "./page.menu";
+import { useEffect, useState } from "react";
 
-interface PageParams {
-  params: { slug: string };
-}
+export default function Page(params: any) {
+  const [restaurant, setRestaurant] = useState<any>();
+  const [exists, setExists] = useState<boolean>(true);
 
-export default async function Page({ params: { slug } }: PageParams) {
-  const page = await getRestaurantPage(slug);
+  useEffect(() => {
+    getRestaurantFromDatabase();
+  }, []);
 
-  if (page.length === 0) {
+  async function getRestaurantFromDatabase() {
+    const restaurant = await getRestaurantPage(params.params.slug);
+    if (restaurant === undefined) {
+      setExists(false);
+    }
+    setRestaurant(restaurant);
+  }
+
+  if (!exists) {
     return notFound();
   }
 
-  return <MenuPage slug={slug} />;
-}
+  if (!restaurant) {
+    return (
+      <MaxWidthWrapper>
+        <h1>Loading...</h1>
+      </MaxWidthWrapper>
+    );
+  }
 
-export async function generateStaticParams() {
-  const pages = await getRestaurantPages();
-
-  return pages.map(({ restaurantSlug }) => restaurantSlug);
+  return (
+    <MaxWidthWrapper>
+      <h1>Menu for {restaurant.restaurantName}</h1>
+    </MaxWidthWrapper>
+  );
 }
