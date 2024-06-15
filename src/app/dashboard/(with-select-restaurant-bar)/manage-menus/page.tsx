@@ -137,7 +137,8 @@ export default function Home() {
               <DialogHeader>
                 <DialogTitle>New Menu</DialogTitle>
                 <DialogDescription>
-                  Make changes to your menu here. Click save when you're done.
+                  Make changes to your menu here. Click save when you&rsquo;re
+                  done.
                 </DialogDescription>
               </DialogHeader>
               <form onSubmit={addMenuToRestaurant}>
@@ -196,7 +197,7 @@ export default function Home() {
                             <AlertDialogDescription>
                               This action cannot be undone. This will
                               permanently delete your menu from our servers. You
-                              are about to delete "{menu.menuName}".
+                              are about to delete &apos;{menu.menuName}&apos;.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
@@ -229,25 +230,4 @@ export default function Home() {
       </MaxWidthWrapper>
     </section>
   );
-}
-
-function getData() {
-  const data = [
-    {
-      id: 1,
-      date: "Tomorrow, 3PM 12 November 2017",
-      account: "Dr. Clinton Ackerman",
-      specialty: "Respiratory therapist Assistive therapy",
-      profile: "Confident",
-    },
-    {
-      id: 2,
-      date: "Today, 4PM 11 November 2017",
-      account: "Dr. John Doe",
-      specialty: "Cardiac Specialist",
-      profile: "Cautious",
-    },
-  ];
-
-  return data;
 }
