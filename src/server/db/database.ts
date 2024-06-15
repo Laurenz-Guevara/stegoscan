@@ -20,6 +20,7 @@ export const getRestaurants = async (userId: string) => {
   return selectResult;
 };
 
+// TODO: Sort types
 export const addRestaurant = async (obj: any) => {
   const doesExist = await db
     .select()
@@ -183,4 +184,43 @@ export const getMenusFromRestaurant = async (restaurantId: number) => {
   });
 
   return selectResult;
+};
+
+export const addMenu = async (obj: {
+  menuName: string;
+  ownerId: string;
+  restaurantId: number;
+}) => {
+  const doesExist = await db
+    .select()
+    .from(menus)
+    .where(
+      and(eq(menus.menuName, obj.menuName), eq(menus.ownerId, obj.ownerId)),
+    );
+
+  if (doesExist.length > 0) {
+    return {
+      status: false,
+      title: "Error :(",
+      description: "This menu already exists",
+      variant: ToastVariant.Destructive,
+    };
+  }
+
+  try {
+    await db.insert(menus).values(obj);
+  } catch (error) {
+    return {
+      status: false,
+      title: "Error :(",
+      description: "There was an error adding the menu",
+      variant: ToastVariant.Destructive,
+    };
+  }
+  return {
+    status: true,
+    title: "Success",
+    description: "The menu has been added successfully",
+    variant: ToastVariant.Success,
+  };
 };
