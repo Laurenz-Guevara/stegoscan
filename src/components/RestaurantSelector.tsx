@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getRestaurants } from "@/server/db/database";
 import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import { Restaurant } from "@/server/db/types";
+import { useRestaurantContext } from "@/app/dashboard/(with-select-restaurant-bar)/RestaurantContext";
 
 import {
   Select,
@@ -18,19 +19,20 @@ import { Button } from "./ui/button";
 
 export default function RestaurantSelector() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>();
-  const [restaurant, setRestaurant] = useState<Restaurant>();
-  const [selectedRestaurant, setSelectedRestaurant] = useState<string>();
   const { user } = useKindeBrowserClient();
+  const { selectedRestaurant, setSelectedRestaurant } = useRestaurantContext();
 
   useEffect(() => {
     getRestaurantsFromUser();
   }, [user]);
 
   const selectRestaurant = (value: string) => {
-    setSelectedRestaurant(value);
-    setRestaurant(
-      restaurants?.find((restaurant) => restaurant.restaurantName === value),
+    const restaurant = restaurants?.find(
+      (restaurant: Restaurant) => restaurant.restaurantName === value,
     );
+    if (restaurant) {
+      setSelectedRestaurant(restaurant);
+    }
   };
 
   async function getRestaurantsFromUser() {
@@ -44,14 +46,16 @@ export default function RestaurantSelector() {
     <MaxWidthWrapper>
       <div className="flex justify-between items-center py-4 w-full">
         {selectedRestaurant ? (
-          <h1 className="text-2xl font-semibold">{selectedRestaurant}</h1>
+          <h1 className="text-2xl font-semibold">
+            {selectedRestaurant.restaurantName}
+          </h1>
         ) : (
           <h1 className="text-2xl font-semibold">Select a Restaurant</h1>
         )}
         <div className="flex items-center space-x-4">
-          {restaurant && (
+          {selectedRestaurant && (
             <Button className="bg-green-600" asChild>
-              <Link href={`/menu/${restaurant.restaurantSlug}`}>
+              <Link href={`/menu/${selectedRestaurant.restaurantSlug}`}>
                 Visit Menu
               </Link>
             </Button>
@@ -62,7 +66,7 @@ export default function RestaurantSelector() {
             </SelectTrigger>
             <SelectContent>
               {restaurants ? (
-                restaurants.map((restaurant) => (
+                restaurants.map((restaurant: Restaurant) => (
                   <SelectItem
                     key={restaurant.id}
                     value={restaurant.restaurantName}

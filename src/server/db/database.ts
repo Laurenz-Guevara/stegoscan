@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/server/db";
-import { restaurants } from "./schema";
+import { restaurants, menus } from "./schema";
 import { ToastVariant } from "./enums";
 import { and, eq } from "drizzle-orm";
 
@@ -104,6 +104,40 @@ export const deleteRestaurant = async (
   }
 };
 
+export const deleteMenuFromRestaurant = async (
+  menuId: number,
+  userId: string,
+) => {
+  try {
+    const result = await db
+      .delete(menus)
+      .where(and(eq(menus.id, menuId), eq(menus.ownerId, userId)));
+
+    if (result.rowCount === 0) {
+      return {
+        status: false,
+        title: "Error :(",
+        description: "This menu does not exist",
+        variant: ToastVariant.Destructive,
+      };
+    } else {
+      return {
+        status: true,
+        title: "Success",
+        description: "The menu has been deleted successfully",
+        variant: ToastVariant.Success,
+      };
+    }
+  } catch (error) {
+    return {
+      status: false,
+      title: "Error :(",
+      description: "There was an error deleting the menu",
+      variant: ToastVariant.Destructive,
+    };
+  }
+};
+
 export const getRestaurantPages = async () => {
   const selectResult = await db.select().from(restaurants);
   return selectResult;
@@ -138,6 +172,14 @@ export const getMenusWithUserId = async (userId: string) => {
     with: {
       menus: true,
     },
+  });
+
+  return selectResult;
+};
+
+export const getMenusFromRestaurant = async (restaurantId: number) => {
+  const selectResult = await db.query.menus.findMany({
+    where: (menus, { eq }) => eq(menus.restaurantId, restaurantId),
   });
 
   return selectResult;
